@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.human.springboot.IDAO">
+	<select id="doList" resultType="com.human.springboot.bbsDTO">
+		select seqno, title, created, updated, writer, readcount from BBS order by seqno desc
+	</select>
+	<insert id="doNewInsert">
+		insert into BBS(seqno, title, content, created, updated, readcount, writer) values(seqno.nextval,#{param1},#{param2},SYSDATE,SYSDATE,0, #{param3})
+	</insert>
+	
+	
+	<select id="doviewList" resultType="com.human.springboot.bbsDTO">
+		select title, readcount, content, created, writer from BBS where seqno=#{param1}
+	</select>
+	<update id="doreadcount">
+		update BBS set readcount=readcount+1 where seqno=#{param1}
+	</update>
+	<update id="doupdated">
+		update BBS set updated=SYSDATE where seqno=#{param1}
+	</update>
+	
+	<select id="doView" resultType="com.human.springboot.bbsDTO">
+		select seqno, title, readcount, content, created, updated, writer from BBS where seqno=#{param1}
+	</select>
+	
+	<select id="showButton" resultType="com.human.springboot.bbsDTO">
+		select writer from BBS where seqno=#{param1}
+	</select>
+	
+	<update id="doModify">
+		update BBS set title=#{param1}, content=#{param2} where seqno=#{param3}
+	</update>
+	<delete id="doDelete">
+		delete from BBS where seqno=#{param1}		
+	</delete>
+	
+	
+	
+	<select id="m_select" resultType="com.human.springboot.MDTO">
+		select id, pw, nickname, gender, interest, id_seq from member2
+	</select>
+	<insert id="signinsert">
+		insert into member2(id, pw, nickname, gender, interest, id_seq) values(#{param1}, #{param2}, #{param3}, #{param4}, #{param5}, id_seq.nextval)
+	</insert>
+	
+	<select id="login" resultType="int">
+		select count(*) from member2 where id=#{param1} and pw=#{param2}
+	</select>
+	<select id="nickname" resultType="String">
+		select nickname from member2 where id=#{param1}
+	</select>
+	
+	<select id="checkid" resultType="int">
+		select count(*) from member2 where id=#{param1}
+	</select>
+	
+	<select id="checkNickname" resultType="int">
+		select count(*) from member2 where nickname=#{param1}
+	</select>
+</mapper>
